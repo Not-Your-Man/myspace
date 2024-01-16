@@ -1,5 +1,3 @@
-<!-- signup.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +9,7 @@
 <body>
     <div class="container">
         <h2>Signup</h2>
-        <form action="https://aucitydbserver.onrender.com/api/signup" method="POST">
+        <form id="signupForm">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
             
@@ -21,9 +19,34 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
             
-            <button type="submit">Signup</button>
+            <button type="button" onclick="signup()">Signup</button>
         </form>
         <p>Already have an account? <a href="https://aucitydbserver.onrender.com/api/login">Login here</a>.</p>
     </div>
+
+    <script>
+        async function signup() {
+            const form = document.getElementById('signupForm');
+            const formData = new FormData(form);
+            const url = 'https://aucitydbserver.onrender.com/api/register';
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    alert('Signup successful! You can now log in.');
+                } else {
+                    const data = await response.json();
+                    alert(`Signup failed: ${data.error}`);
+                }
+            } catch (error) {
+                console.error('Error during signup:', error);
+                alert('An error occurred during signup. Please try again.');
+            }
+        }
+    </script>
 </body>
 </html>
